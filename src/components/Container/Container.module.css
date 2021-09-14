@@ -1,0 +1,47 @@
+html {
+    box-sizing: border-box;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+
+.container {
+    padding: 0 15px;
+    padding-bottom: 20px;
+    text-align: center;
+    /* font-family: 'Tangerine', cursive; */
+    font-family: 'Syncopate', sans-serif;
+}
+
+h1,
+h2 {
+    font-weight: 700;
+}
+
+h2 {
+    margin-top: 80px;
+    font-size: 30px;
+    color: rgb(90, 64, 90);
+}
+
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+p {
+    margin: 0;
+}
+
+input {
+    font-size: 20px;
+    color: rgb(90, 64, 90);
+}

@@ -16,20 +16,18 @@ function getPopularMovies( page=1) {
   });
 };
 
-function getFilmByRequest(requestTerm = '', page=1) {
+function getFilmByRequest(requestTerm, page) {
   requestTerm = requestTerm.trim();
   const url = `${BASE_URL}search/${MEDIA_TYPE}?api_key=${API_KEY}&query=${requestTerm}&page=${page}&language=${LANGUAGE}`;
   if (!requestTerm) { return };
 
-  return fetch(url)
-          .then(response => {
-            if (response.ok) return response.json();
-              throw new Error("Error fetching data");
-            })
-            .catch(() => {
-              return Promise.reject(new Error(`No results on request ${requestTerm}`));
-               // notification.fetchError();
-            });
+  return fetch(url).then(response => {
+    if (response.ok) {
+      return response.json();
+    }
+
+    return Promise.reject(new Error(`No results on request ${requestTerm}`));
+  });
 };
 
 function getFilmInfoById(id) {
@@ -71,7 +69,7 @@ function getMovieReviews(id) {
             });
 };
 
-const api = {
+const getMovieAPI = {
   getPopularMovies,
   getFilmByRequest,
   getFilmInfoById,
@@ -79,4 +77,4 @@ const api = {
   getMovieReviews,
 };
 
-export default api;
+export default getMovieAPI;
