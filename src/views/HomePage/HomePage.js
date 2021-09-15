@@ -31,12 +31,12 @@ function HomeView () {
   }, []);
 
   return (
-      <>
+      <div className={s.filmCards}>
         <h1>The most popular today</h1>
-         <ul className={s.filmsList}>
+         <ul className={s.filmCardsList}>
         {popularFilms.map(({ poster_path, title, id }) => (
-          <li key={id} className={s.filmsListItem}>
-            <Link
+          <li key={id} className={s.filmCardWrap}>
+            <Link className={s.filmCardLink}
               to={{
                 pathname: `/movies/${id}`,
                 state: {
@@ -44,13 +44,13 @@ function HomeView () {
                 },
               }}
             >
-              <img src={`${srcBaseUrl}${poster_path}`} alt="" />
-              <h3 className={s.title}>{title}</h3>
+              <img src={`${srcBaseUrl}${poster_path}`} alt="" className={s.filmCardPoster} />
+              <h3 className={s.filmCardTitle}>{title.slice(0, 35)}</h3>
             </Link>
           </li>
         ))}
       </ul>
-        </>
+        </div>
       )
 };
 

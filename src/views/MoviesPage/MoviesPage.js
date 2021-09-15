@@ -38,40 +38,24 @@ function SearchMoviesView() {
 
     
     const findFilms = (request, page, films) => {
-         
+   
         getMovieAPI.getFilmByRequest(request, page)
             .then(response => {
-                 if (response.total_results > 0 && page === 1) {
-        toast.info('Your films found. Have a nice viewing!')
-      } else
-      if (response.total_results === 0) {
-        setStatus(Status.IDLE);
-        toast.error('No film has been found. Please enter your request again!');  
-      }
+                if (response.total_results > 0 && page === 1) {
+                    toast.info('Your films found. Have a nice viewing!')
+                } else
+                    if (response.total_results === 0) {
+                        setStatus(Status.IDLE);
+                        toast.error('Any films has been found. Please enter your request again!');
+                    }
                 setFilms([...films, ...response.results]);
                 setStatus(Status.RESOLVED);
             })
             .catch(error => {
-            setError(error);
-            setStatus(Status.REJECTED);
-      })
-        //     //   .then(response => {
-        //     //     if (response.total_results > 0 && page === 1) {
-        //     //     toast.info('Your images found. Have a nice viewing!')
-        //     //   } else
-        //     //   if (response.total_results === 0) {
-        //     //     setStatus(Status.IDLE);
-        //     //     toast.error('No image has been found. Please enter your request again!');  
-        //     //   }
-        //     //     setFilms([...films,...response.results]);
-        //     //     setStatus(Status.RESOLVED);
-        //     //   }
-        //     //   )
-        //     //   .catch(error => {
-        //     //     setError(error);
-        //     //     setStatus(Status.REJECTED);
-        //     //   })
-    }
+                setError(error);
+                setStatus(Status.REJECTED);
+            })
+    };
     
     const handleChange = event => {
         setQuery(event.currentTarget.value.toLowerCase());
@@ -87,36 +71,30 @@ function SearchMoviesView() {
 
         setRequest(query);
         reset();
-          setStatus(Status.PENDING);
-          findFilms(query, 1, []);
-          setPage(2);
+        setStatus(Status.PENDING);
+        findFilms(query, 1, []);
+        setPage(2);
     };
     
     const changePage = () => {
         setPage(p => p + 1);
-        setStatus(Status.PENDING);
-        findFilms(request, page, films);
     };
-
-    // //   useEffect(() => {
-    // //     findFilms(request, page);
-    // //   }, [request]);
     
-    // useEffect(() => {
-    //     if (!request) {
-    //         return;
-    //     };
-    //     setStatus(Status.PENDING);
-    //     findFilms(query, 1, films);
-    //     setPage(2);
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [request]);
+    useEffect(() => {
+    if (!request) {
+      return;
+    };
+     
+    findFilms(request, page, films);
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page]);
     
     if (status === 'idle') {
         return (<div>
             <h2>What films are you looking for?</h2>
-            <form onSubmit={handleSubmit}>
+            <form className={s.searchForm} onSubmit={handleSubmit}>
                 <input
+                    className={s.searchFormInput}
                     type="text"
                     autoComplete="off"
                     autoFocus
@@ -124,12 +102,11 @@ function SearchMoviesView() {
                     value={query}
                     onChange={handleChange}
                 />
-                <button type="submit">
-                    <span>
-                        Search
+                <button type="submit" className={s.searchFormButton}>
+                    <span> 
                         <FaSearch
                             style={{ marginRight: 8 }}
-                            color="rgb(90, 64, 90)"
+                            color="rgb(250, 149, 17)"
                             size="30px"
                             aria-label="Search images" />
                     </span>
@@ -151,8 +128,9 @@ function SearchMoviesView() {
 
         return (
             <>
-                <form onSubmit={handleSubmit}>
+                <form className={s.searchForm} onSubmit={handleSubmit}>
                     <input
+                        className={s.searchFormInput}
                         type="text"
                         autoComplete="off"
                         autoFocus
@@ -160,23 +138,22 @@ function SearchMoviesView() {
                         value={query}
                         onChange={handleChange}
                     />
-                    <button type="submit">
+                    <button type="submit" className={s.searchFormButton}>
                         <span>
-                            Search
                             <FaSearch
                                 style={{ marginRight: 8 }}
-                                color="rgb(90, 64, 90)"
+                                color="rgb(250, 149, 17)"
                                 size="30px"
                                 aria-label="Search images" />
                         </span>
                     </button>
                 </form>
                 {films && (
-                    <>
-                        <ul className={s.filmsList}>
+                    <div className={s.filmCards}>
+                        <ul className={s.filmCardsList}>
                             {films.map(({ poster_path, title, id }) => (
-                                <li key={id}>
-                                    <NavLink
+                                <li key={id} className={s.filmCardWrap}>
+                                    <NavLink className={s.filmCardLink}
                                         to={{
                                             pathname: `${url}/${id}`,
                                             state: {
@@ -185,8 +162,8 @@ function SearchMoviesView() {
                                         }}
                                     >
                 
-                                        <img src={poster_path ? `${srcBaseUrl}${poster_path}` : notImage} alt={title} />
-                                        <h3 className={s.title}>{title}</h3>
+                                        <img src={poster_path ? `${srcBaseUrl}${poster_path}` : notImage} alt={title} className={s.filmCardPoster} />
+                                        <h3 className={s.filmCardTitle}>{title.slice(0, 35)}</h3>
                 
                                     </NavLink>
                                 </li>
@@ -195,7 +172,7 @@ function SearchMoviesView() {
                         {films.length > 19 && (
                             <Button onClick={changePage} />
                         )}
-                    </>
+                    </div>
                 )}
             </>
         )

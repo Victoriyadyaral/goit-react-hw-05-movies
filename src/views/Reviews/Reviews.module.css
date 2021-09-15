@@ -1,0 +1,26 @@
+.reviews {
+    padding-top: 10px;
+}
+
+.reviewsDesc {
+    color: #000000;
+}
+
+.review {
+    text-align: left;
+}
+
+.author {
+    color: rgb(175, 89, 8);
+}
+
+.noInfo {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 0 0;
+    padding-top: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+}

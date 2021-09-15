@@ -1,0 +1,73 @@
+.filmCards {
+    padding: 20px, 40px;
+}
+
+@media screen and (min-width: 768px) {
+
+    .filmCardsList {
+        display: grid;
+        grid-template-columns: repeat(2, 300px);
+        grid-auto-rows: 460px;
+        grid-gap: 30px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .filmCardsList {
+        grid-template-columns: repeat(3, 288px);
+    }
+}
+
+.filmCardWrap {
+    padding-left: 2px;
+    padding-top: 2px;
+    padding-bottom: 6px;
+    width: 100%;
+    max-width: 280px;
+    border-radius: 5px;
+    background-color: #ccd2da;
+    transform: scale(1);
+}
+
+.filmCardLink {
+    display: block;
+    cursor: pointer;
+}
+
+.filmCardPoster {
+    width: 268px;
+    height: 398px;
+    border-radius: 5px;
+    transform: scale(1);
+}
+
+.filmCardWrap:hover {
+    transform: scale(1.05);
+}
+
+.filmCardTitle {
+    display: block;
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.333;
+    color: #000;
+}
+
+@media screen and (max-width: 767px) {
+    .filmCardWrap:not(:last-child) {
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .filmCardPoster {
+        width: 274px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .filmCardPoster {
+        width: 274px;
+    }
+}

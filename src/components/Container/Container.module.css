@@ -1,33 +1,57 @@
 html {
     box-sizing: border-box;
     width: 100vw;
-    overflow-x: hidden;
+    background-color: rgb(78, 75, 75);
+    color: #ffffff;
 }
-
-*,
-*::before,
-*::after {
-    box-sizing: inherit;
-}
-
 
 .container {
-    padding: 0 15px;
-    padding-bottom: 20px;
+    padding-top: 0;
+    padding-bottom: 50px;
+    margin-right: auto;
+    margin-left: auto;
     text-align: center;
-    /* font-family: 'Tangerine', cursive; */
-    font-family: 'Syncopate', sans-serif;
+}
+
+@media screen and (min-width: 320px) {
+    .container {
+        width: 320px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        width: 768px;
+        padding-left: 75px;
+        padding-right: 75px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .container {
+        width: 1024px;
+        padding-left: 71px;
+        padding-right: 71px;
+    }
 }
 
 h1,
 h2 {
+    margin-bottom: 30px;
     font-weight: 700;
 }
 
 h2 {
-    margin-top: 80px;
     font-size: 30px;
-    color: rgb(90, 64, 90);
+    /* color: rgb(250, 149, 17); */
+    /* color:rgb(175, 89, 8);*/
+} 
+
+a {
+    text-decoration: none;
+    color: #ffffff;
 }
 
 ul,
@@ -42,6 +66,6 @@ p {
 }
 
 input {
-    font-size: 20px;
-    color: rgb(90, 64, 90);
+    font-size: 30px;
+    color: rgb(175, 89, 8);
 }
