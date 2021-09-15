@@ -73,7 +73,6 @@ function SearchMoviesView() {
         reset();
         setStatus(Status.PENDING);
         findFilms(query, 1, []);
-        setPage(2);
     };
     
     const changePage = () => {
