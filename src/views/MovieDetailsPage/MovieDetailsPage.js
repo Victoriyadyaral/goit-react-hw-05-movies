@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
-import { useParams, NavLink, Route, useRouteMatch, useLocation, useHistory, Redirect } from 'react-router-dom';
+import { Switch, useParams, NavLink, Route, useRouteMatch, useLocation, useHistory } from 'react-router-dom';
 import  PropTypes  from 'prop-types';
 import getMovieAPI from '../../services/getMovies-api';
 import notImage from '../../image/image-not-found.png';
@@ -14,33 +14,16 @@ export default function MovieDetailsPage() {
   const { movieId } = useParams();
   const { url, path } = useRouteMatch();
   const [film, setFilm] = useState(null);
-  const [from, setFrom] = useState('');
   const location = useLocation();
   const history = useHistory();
   const srcBaseUrl = 'https://image.tmdb.org/t/p/w500';
-    
+ 
   useEffect(() => {
     getMovieAPI.getFilmInfoById(movieId).then(setFilm);
   }, [movieId]);
 
-  useEffect(() => {
-    if (location?.state?.from === '/' || location?.state?.from === '/movies') {
-     setFrom(location?.state?.from ?? '/');
-    }
-    return;
-  }, [location?.state?.from]);
-
   function onGoBack() {
-     history.push(from);
-    // if (refLocation.current.state) {
-    //   const { pathname, search } = refLocation.current.state.from;
-    //   history.push(search ? pathname + search : pathname);
-    // } else {
-    //   const path = refLocation.current.pathname.includes('movies')
-    //     ? '/movies'
-    //     : '/';
-    //   history.push(path);
-    // }
+    history.push(location?.state?.from ?? '/');
   }
    
   return (
@@ -89,14 +72,24 @@ export default function MovieDetailsPage() {
       
       <div className={s.detailsWrap}>
         <NavLink
-          to={`${url}/cast`}
+          to={{
+                  pathname: `${url}/cast`,
+                  state: {
+                    from: location.state ? location.state.from : '/',
+                  },
+                }}
           className={s.link}
           activeClassName={s.activeLink}
         >
           Cast
         </NavLink>
         <NavLink
-          to={`${url}/reviews`}
+          to={{
+                  pathname: `${url}/reviews`,
+                  state: {
+                    from: location.state ? location.state.from : '/',
+                  },
+                }}
           className={s.link}
           activeClassName={s.activeLink}
         >
@@ -105,6 +98,7 @@ export default function MovieDetailsPage() {
       </div>
 
       <Suspense fallback={<PendingView />}>
+      <Switch>
       <Route path={`${path}/cast`} exact>
         <Cast />
       </Route>
@@ -112,8 +106,8 @@ export default function MovieDetailsPage() {
       <Route path={`${path}/reviews`} exact>
         <Reviews />
         </Route>
-
-        <Redirect to="/" />
+        
+      </Switch>
       </Suspense>
     </>
   );

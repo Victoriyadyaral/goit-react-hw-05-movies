@@ -31,35 +31,27 @@ function SearchMoviesView() {
     const location = useLocation();
     const history = useHistory();
     const srcBaseUrl = 'https://image.tmdb.org/t/p/w500';
-
-    // const currentQueryUrl = new URLSearchParams(location.search).get('query') ?? '';
-    // const currentPageUrl = new URLSearchParams(location.search).get('page') ?? 1;
     
     const reset = () => {
         setQuery('');
     };
 
-//     useEffect(() => {
-//     if (currentQueryUrl === '') {
-//       return;
-//     }
+    useEffect(() => {
+    if (location.search === '') {
+      return;
+    }
 
-//     getMovieAPI.getFilmByRequest(currentQueryUrl, currentPageUrl).then(data => {
-//       setFilms(data.results);
-//     });
-//   }, [currentPageUrl, currentQueryUrl]);
+    const currentQueryUrl = new URLSearchParams(location.search).get('query') ?? '';
+        const currentPageUrl = Number(new URLSearchParams(location.search).get('page') ?? 1);
+        
+        setPage(currentPageUrl);
+        setRequest(currentQueryUrl)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]);
 
-    // useEffect(() => {
-    // if (currentQueryUrl === '') {
-    //   return;
-    // }
-
-    // setRequest(currentQueryUrl);
-    // }, [currentQueryUrl]);
-
-    // const setHistory = (query, value = 1) => {
-    // history.push({ ...location, search: `query=${query}&page=${value}` });
-    // };
+    const setHistory = (query, value = 1) => {
+        history.push({ ...location, search: `query=${query}&page=${value}` });
+    };
     
     const findFilms = (request, page, films) => {
    
@@ -94,10 +86,11 @@ function SearchMoviesView() {
         }
 
         setRequest(query);
+        setPage(1);
+        setFilms([]);
         reset();
         setStatus(Status.PENDING);
-        findFilms(query, 1, []);
-        //setHistory(request, 1);
+        setHistory(query, 1);
     };
     
     const changePage = () => {
@@ -108,13 +101,9 @@ function SearchMoviesView() {
     if (!request) {
       return;
     };
-        
-    if (page < 2) {
-      return;
-    }
      
         findFilms(request, page, films);
-        //setHistory(request, page);
+        setHistory(request, page);
    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, request]);
     
@@ -186,7 +175,7 @@ function SearchMoviesView() {
                                         to={{
                                             pathname: `${url}/${id}`,
                                             state: {
-                                                from: location.pathname,
+                                                from: location,
                                             },
                                         }}
                                     >
