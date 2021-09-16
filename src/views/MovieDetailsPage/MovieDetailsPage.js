@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
-import { useParams, NavLink, Route, useRouteMatch, useLocation, useHistory } from 'react-router-dom';
+import { useParams, NavLink, Route, useRouteMatch, useLocation, useHistory, Redirect } from 'react-router-dom';
 import  PropTypes  from 'prop-types';
 import getMovieAPI from '../../services/getMovies-api';
 import notImage from '../../image/image-not-found.png';
@@ -31,7 +31,16 @@ export default function MovieDetailsPage() {
   }, [location?.state?.from]);
 
   function onGoBack() {
-    history.push(from);
+     history.push(from);
+    // if (refLocation.current.state) {
+    //   const { pathname, search } = refLocation.current.state.from;
+    //   history.push(search ? pathname + search : pathname);
+    // } else {
+    //   const path = refLocation.current.pathname.includes('movies')
+    //     ? '/movies'
+    //     : '/';
+    //   history.push(path);
+    // }
   }
    
   return (
@@ -103,6 +112,8 @@ export default function MovieDetailsPage() {
       <Route path={`${path}/reviews`} exact>
         <Reviews />
         </Route>
+
+        <Redirect to="/" />
       </Suspense>
     </>
   );

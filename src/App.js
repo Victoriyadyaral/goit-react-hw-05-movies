@@ -1,6 +1,6 @@
 //import './App.css';
 import { lazy, Suspense } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -32,9 +32,8 @@ function App() {
           <MovieDetailsPage />
         </Route>
 
-        <Route>
-          <HomePage />
-        </Route>
+        <Redirect to="/" />
+            
       </Switch>
       </Suspense>
        <ToastContainer

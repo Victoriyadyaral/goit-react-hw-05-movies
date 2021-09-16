@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {  NavLink, useRouteMatch, useLocation } from 'react-router-dom';
+import {  NavLink, useRouteMatch, useLocation, useHistory } from 'react-router-dom';
 import { toast } from "react-toastify";
 import PropTypes from 'prop-types';
 import getMovieAPI from '../../services/getMovies-api';
@@ -29,13 +29,37 @@ function SearchMoviesView() {
     const [status, setStatus] = useState(Status.IDLE);
     const { url } = useRouteMatch();
     const location = useLocation();
-    
+    const history = useHistory();
     const srcBaseUrl = 'https://image.tmdb.org/t/p/w500';
+
+    // const currentQueryUrl = new URLSearchParams(location.search).get('query') ?? '';
+    // const currentPageUrl = new URLSearchParams(location.search).get('page') ?? 1;
     
     const reset = () => {
         setQuery('');
     };
 
+//     useEffect(() => {
+//     if (currentQueryUrl === '') {
+//       return;
+//     }
+
+//     getMovieAPI.getFilmByRequest(currentQueryUrl, currentPageUrl).then(data => {
+//       setFilms(data.results);
+//     });
+//   }, [currentPageUrl, currentQueryUrl]);
+
+    // useEffect(() => {
+    // if (currentQueryUrl === '') {
+    //   return;
+    // }
+
+    // setRequest(currentQueryUrl);
+    // }, [currentQueryUrl]);
+
+    // const setHistory = (query, value = 1) => {
+    // history.push({ ...location, search: `query=${query}&page=${value}` });
+    // };
     
     const findFilms = (request, page, films) => {
    
@@ -73,6 +97,7 @@ function SearchMoviesView() {
         reset();
         setStatus(Status.PENDING);
         findFilms(query, 1, []);
+        //setHistory(request, 1);
     };
     
     const changePage = () => {
@@ -83,10 +108,15 @@ function SearchMoviesView() {
     if (!request) {
       return;
     };
+        
+    if (page < 2) {
+      return;
+    }
      
-    findFilms(request, page, films);
+        findFilms(request, page, films);
+        //setHistory(request, page);
    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page]);
+    }, [page, request]);
     
     if (status === 'idle') {
         return (<div>
